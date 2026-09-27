@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: stg_thelook__orders
+    description: "One row per order. Cleaned and renamed orders from theLook eCommerce."
+    columns:
+      - name: order_id
+        description: "Primary key of the order"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "Customer who placed the order"
+        data_tests:
+          - not_null
+
+      - name: order_status
+        description: "Current status of the order"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['processing', 'shipped', 'complete', 'cancelled', 'returned']
+
+      - name: items_count
+        description: "Number of items in the order"
+
+      - name: ordered_at
+        description: "Timestamp when the order was created (UTC)"
+        data_tests:
+          - not_null
+
+      - name: shipped_at
+        description: "Timestamp when the order was shipped; null if not shipped yet"
+
+      - name: delivered_at
+        description: "Timestamp when the order was delivered; null if not delivered yet"
+
+      - name: returned_at
+        description: "Timestamp when the order was returned; null if not returned"
