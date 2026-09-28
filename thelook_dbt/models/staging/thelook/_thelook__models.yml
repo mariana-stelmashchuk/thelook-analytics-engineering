@@ -14,6 +14,10 @@ models:
         description: "Customer who placed the order"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__users')
+                field: user_id
 
       - name: order_status
         description: "Current status of the order"
@@ -39,3 +43,172 @@ models:
 
       - name: returned_at
         description: "Timestamp when the order was returned; null if not returned"
+
+  - name: stg_thelook__users
+    description: "One row per user. Renamed from theLook eCommerce, with personal data removed."
+    columns:
+      - name: user_id
+        description: "Primary key of the user"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: age
+        description: "User age"
+        data_tests:
+          - not_null
+
+      - name: gender
+        description: "User gender"
+
+      - name: city
+        description: "User city"
+
+      - name: state
+        description: "User state or region"
+
+      - name: country
+        description: "User country"
+
+      - name: traffic_source
+        description: "Acquisition channel"
+
+      - name: created_at
+        description: "User registration timestamp"
+        data_tests:
+          - not_null
+
+  - name: stg_thelook__order_items
+    description: "One row per order item. Renamed from theLook eCommerce."
+    columns:
+      - name: order_item_id
+        description: "Primary key of the order item"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        description: "Foreign key to orders"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__orders')
+                field: order_id
+
+      - name: product_id
+        description: "Foreign key to products"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__products')
+                field: product_id
+
+      - name: inventory_item_id
+        description: "Foreign key to inventory items"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__inventory_items')
+                field: inventory_item_id
+
+      - name: order_item_status
+        description: "Current status of the order item; can differ from the order status (e.g. partial returns)"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['processing', 'shipped', 'complete', 'cancelled', 'returned']
+
+      - name: sale_price
+        description: "Price the item was sold for"
+        data_tests:
+          - not_null
+
+      - name: created_at
+        description: "Timestamp when the item was added to the order"
+        data_tests:
+          - not_null
+
+      - name: shipped_at
+        description: "Timestamp when the item was shipped; null if not shipped yet"
+
+      - name: delivered_at
+        description: "Timestamp when the item was delivered; null if not delivered yet"
+
+      - name: returned_at
+        description: "Timestamp when the item was returned; null if not returned"
+
+  - name: stg_thelook__products
+    description: "One row per product. Renamed from theLook eCommerce."
+    columns:
+      - name: product_id
+        description: "Primary key of the product"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: cost
+        description: "Product cost"
+        data_tests:
+          - not_null
+
+      - name: category
+        description: "Product category"
+        data_tests:
+          - not_null
+
+      - name: product_name
+        description: "Product name"
+
+      - name: brand
+        description: "Product brand"
+
+      - name: retail_price
+        description: "Product retail price"
+        data_tests:
+          - not_null
+
+      - name: department
+        description: "Product department"
+
+      - name: sku
+        description: "Product SKU"
+
+      - name: distribution_center_id
+        description: "Foreign key to distribution centers"
+        data_tests:
+          - not_null
+
+  - name: stg_thelook__inventory_items
+    description: "One row per inventory item. Renamed from theLook eCommerce."
+    columns:
+      - name: inventory_item_id
+        description: "Primary key of the inventory item"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: product_id
+        description: "Foreign key to products"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__products')
+                field: product_id
+
+      - name: cost
+        description: "Inventory item cost"
+        data_tests:
+          - not_null
+
+      - name: created_at
+        description: "Inventory item creation timestamp"
+        data_tests:
+          - not_null
+
+      - name: sold_at
+        description: "Sale timestamp, null if unsold"
