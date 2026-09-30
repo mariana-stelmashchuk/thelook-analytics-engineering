@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: fct_order_items
+    description: "One row per order item. Core sales fact table with revenue, cost and margin."
+    columns:
+      - name: order_item_id
+        description: "Primary key; grain of the table"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        description: "Degenerate dimension: the order this item belongs to"
+        data_tests:
+          - not_null
+
+      - name: user_id
+        description: "Customer who placed the order (joined from orders)"
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: "Product sold"
+        data_tests:
+          - not_null
+
+      - name: sale_price
+        description: "Price the item was sold for"
+        data_tests:
+          - not_null
+
+      - name: cost
+        description: "Cost of the specific inventory item (joined from inventory items)"
+        data_tests:
+          - not_null
+
+      - name: gross_margin
+        description: "sale_price minus cost, regardless of item status"
+
+      - name: is_returned
+        description: "True if the item was returned"

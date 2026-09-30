@@ -33,3 +33,5 @@ models:
   thelook_dbt:
     staging:
       +materialized: view
+    marts:
+      +materialized: table
