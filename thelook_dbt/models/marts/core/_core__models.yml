@@ -84,3 +84,57 @@ models:
         description: "Distribution center name (joined from distribution centers)"
         data_tests:
           - not_null
+  
+  - name: dim_users
+    description: "One row per user, including users without orders. Profile attributes plus lifetime order metrics."
+    columns:
+      - name: user_id
+        description: "Primary key of the user"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: age
+        description: "User age"
+
+      - name: age_group
+        description: "Age bucket: under 25, 25-34, 35-44, 45-54, 55+"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['under 25', '25-34', '35-44', '45-54', '55+']
+
+      - name: gender
+        description: "User gender"
+
+      - name: city
+        description: "User city"
+
+      - name: state
+        description: "User state or region"
+
+      - name: country
+        description: "User country"
+
+      - name: traffic_source
+        description: "Acquisition channel"
+
+      - name: orders_count
+        description: "Number of distinct orders placed, including cancelled and returned; 0 if none"
+        data_tests:
+          - not_null
+
+      - name: lifetime_revenue
+        description: "Sum of sale_price for items that count toward revenue (not cancelled or returned); 0 if none"
+        data_tests:
+          - not_null
+
+      - name: created_at
+        description: "User registration timestamp"
+
+      - name: first_order_at
+        description: "Timestamp of the first order (any status); null if the user has no orders"
+
+      - name: last_order_at
+        description: "Timestamp of the most recent order (any status); null if the user has no orders"
