@@ -41,6 +41,9 @@ models:
       - name: gross_margin
         description: "sale_price minus cost, regardless of item status"
 
+      - name: created_date
+        description: "Date when the item was added to the order (UTC); join key to dim_date"
+
       - name: created_at
         description: "Timestamp when the item was added to the order"
 

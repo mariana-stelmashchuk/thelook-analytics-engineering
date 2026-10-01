@@ -15,6 +15,9 @@ select
     cost,
     gross_margin,
 
+    -- dates
+    created_date,
+
     -- timestamps
     created_at,
     shipped_at,

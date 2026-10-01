@@ -52,6 +52,9 @@ final as (
         inventory_items.cost,
         order_items.sale_price - inventory_items.cost as gross_margin,
 
+        -- dates
+        date(order_items.created_at) as created_date,
+
         -- timestamps
         order_items.created_at,
         order_items.shipped_at,
