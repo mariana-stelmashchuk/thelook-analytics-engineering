@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: int_order_items__enriched
+    description: "One row per order item, enriched with user_id from orders and cost from inventory items. Shared base for fct_order_items and user-level aggregates."
+    columns:
+      - name: order_item_id
+        description: "Primary key of the order item"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: order_id
+        description: "The order this item belongs to"
+
+      - name: user_id
+        description: "Customer who placed the order (joined from orders)"
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: "Product sold"
+
+      - name: order_item_status
+        description: "Current status of the order item"
+
+      - name: is_returned
+        description: "True if the item was returned"
+
+      - name: is_revenue
+        description: "True if the item counts toward revenue: status is not cancelled or returned"
+
+      - name: sale_price
+        description: "Price the item was sold for"
+
+      - name: cost
+        description: "Cost of the specific inventory item (joined from inventory items)"
+        data_tests:
+          - not_null
+
+      - name: gross_margin
+        description: "sale_price minus cost, regardless of item status"
+
+      - name: created_at
+        description: "Timestamp when the item was added to the order"
+
+      - name: shipped_at
+        description: "Timestamp when the item was shipped; null if not shipped yet"
+
+      - name: delivered_at
+        description: "Timestamp when the item was delivered; null if not delivered yet"
+
+      - name: returned_at
+        description: "Timestamp when the item was returned; null if not returned"

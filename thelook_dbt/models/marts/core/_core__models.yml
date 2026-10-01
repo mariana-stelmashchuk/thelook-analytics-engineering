@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: fct_order_items
     description: "One row per order item. Core sales fact table with revenue, cost and margin."
@@ -14,9 +12,7 @@ models:
         description: "Degenerate dimension: the order this item belongs to"
 
       - name: user_id
-        description: "Customer who placed the order (joined from orders)"
-        data_tests:
-          - not_null
+        description: "Customer who placed the order"
 
       - name: product_id
         description: "Product sold"
@@ -27,13 +23,14 @@ models:
       - name: is_returned
         description: "True if the item was returned"
 
+      - name: is_revenue
+        description: "True if the item counts toward revenue: status is not cancelled or returned"
+
       - name: sale_price
         description: "Price the item was sold for"
 
       - name: cost
-        description: "Cost of the specific inventory item (joined from inventory items)"
-        data_tests:
-          - not_null
+        description: "Cost of the specific inventory item"
 
       - name: gross_margin
         description: "sale_price minus cost, regardless of item status"
