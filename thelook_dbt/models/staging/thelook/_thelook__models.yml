@@ -176,11 +176,17 @@ models:
 
       - name: sku
         description: "Product SKU"
+        data_tests:
+          - not_null
 
       - name: distribution_center_id
         description: "Foreign key to distribution centers"
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_thelook__distribution_centers')
+                field: distribution_center_id
 
   - name: stg_thelook__inventory_items
     description: "One row per inventory item. Renamed from theLook eCommerce."
@@ -212,3 +218,30 @@ models:
 
       - name: sold_at
         description: "Sale timestamp, null if unsold"
+
+  - name: stg_thelook__distribution_centers
+    description: "One row per distribution center. Renamed from theLook eCommerce."
+    columns:
+      - name: distribution_center_id
+        description: "Primary key of the distribution center"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: distribution_center_name
+        description: "Distribution center name"
+        data_tests:
+          - not_null
+
+      - name: latitude
+        description: "Distribution center latitude"
+        data_tests:
+          - not_null
+
+      - name: longitude
+        description: "Distribution center longitude"
+        data_tests:
+          - not_null
+
+      - name: distribution_center_geom
+        description: "Distribution center location as geography point"

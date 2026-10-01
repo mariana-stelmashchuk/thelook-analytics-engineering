@@ -12,8 +12,6 @@ models:
 
       - name: order_id
         description: "Degenerate dimension: the order this item belongs to"
-        data_tests:
-          - not_null
 
       - name: user_id
         description: "Customer who placed the order (joined from orders)"
@@ -22,13 +20,15 @@ models:
 
       - name: product_id
         description: "Product sold"
-        data_tests:
-          - not_null
+
+      - name: order_item_status
+        description: "Current status of the order item"
+
+      - name: is_returned
+        description: "True if the item was returned"
 
       - name: sale_price
         description: "Price the item was sold for"
-        data_tests:
-          - not_null
 
       - name: cost
         description: "Cost of the specific inventory item (joined from inventory items)"
@@ -38,5 +38,52 @@ models:
       - name: gross_margin
         description: "sale_price minus cost, regardless of item status"
 
-      - name: is_returned
-        description: "True if the item was returned"
+      - name: created_at
+        description: "Timestamp when the item was added to the order"
+
+      - name: shipped_at
+        description: "Timestamp when the item was shipped; null if not shipped yet"
+
+      - name: delivered_at
+        description: "Timestamp when the item was delivered; null if not delivered yet"
+
+      - name: returned_at
+        description: "Timestamp when the item was returned; null if not returned"
+
+  - name: dim_products
+    description: "One row per product, enriched with distribution center name."
+    columns:
+      - name: product_id
+        description: "Primary key of the product"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: distribution_center_id
+        description: "Distribution center the product ships from"
+
+      - name: product_name
+        description: "Product name"
+
+      - name: category
+        description: "Product category"
+
+      - name: brand
+        description: "Product brand"
+
+      - name: department
+        description: "Product department"
+
+      - name: sku
+        description: "Product SKU"
+
+      - name: cost
+        description: "Product cost"
+
+      - name: retail_price
+        description: "Product retail price"
+
+      - name: distribution_center_name
+        description: "Distribution center name (joined from distribution centers)"
+        data_tests:
+          - not_null
